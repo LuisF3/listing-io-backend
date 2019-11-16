@@ -5,7 +5,7 @@
   // A set of basic code conventions designed to encourage quality and consistency
   // across your Sails app's code base.  These rules are checked against
   // automatically any time you run `npm test`.
-  // 
+  //
   // > An additional eslintrc override file is included in the `assets/` folder
   // > right out of the box.  This is specifically to allow for variations in acceptable
   // > global variables between front-end JavaScript code designed to run in the browser
@@ -46,7 +46,7 @@
     "callback-return":              ["error", ["done", "proceed", "next", "onwards", "callback", "cb"]],
     "camelcase":                    ["warn", {"properties":"always"}],
     "comma-style":                  ["warn", "last"],
-    "curly":                        ["warn"],
+    "curly":                        ["off"],
     "eqeqeq":                       ["error", "always"],
     "eol-last":                     ["warn"],
     "handle-callback-err":          ["error"],
@@ -69,7 +69,7 @@
     "no-redeclare":                 ["warn"],
     "no-return-assign":             ["error", "always"],
     "no-sequences":                 ["error"],
-    "no-trailing-spaces":           ["warn"],
+    "no-trailing-spaces":           ["off"],
     "no-undef":                     ["off"],
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // ^^Note: If this "no-undef" rule is enabled (set to `["error"]`), then all model globals

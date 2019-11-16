@@ -8,11 +8,6 @@
 module.exports = {
 
   attributes: {
-    listId: {
-      type: 'number',
-      required: true
-    },
-
     description: {
       type: 'string'
     },

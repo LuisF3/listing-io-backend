@@ -19,8 +19,10 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': { view: 'pages/homepage' },
-  'post /list': 'ListController.test'
+  'post /auth': 'AuthController.auth',
+  'post /register': 'AuthController.register',
+  'get /list/getAll': 'ListController.getAll',
+  'post /list/create': 'ListController.create'
 
 
   /***************************************************************************

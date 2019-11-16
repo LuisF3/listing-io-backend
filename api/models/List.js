@@ -6,19 +6,22 @@
  */
 
 module.exports = {
-
   attributes: {
-    userId: {
-      type: 'number',
-      required: true
-    },
-
     title: {
       type: 'string'
     },
 
     description: {
       type: 'string'
+    },
+
+    color: {
+      type: 'string'
+    },
+
+    owner: {
+      model: 'user',
+      required: true
     }
   },
 
