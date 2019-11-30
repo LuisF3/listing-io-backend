@@ -8,7 +8,8 @@
 module.exports = {
   attributes: {
     title: {
-      type: 'string'
+      type: 'string',
+      required: true
     },
 
     description: {
@@ -16,12 +17,18 @@ module.exports = {
     },
 
     color: {
-      type: 'string'
+      type: 'string',
+      required: true
     },
 
     owner: {
       model: 'user',
       required: true
+    },
+
+    listItems: {
+      collection: 'listitem',
+      via: 'list'
     }
   },
 

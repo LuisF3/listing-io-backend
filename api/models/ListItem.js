@@ -15,6 +15,11 @@ module.exports = {
     isDone: {
       type: 'boolean',
       required: true
+    },
+
+    list: {
+      model: 'List',
+      required: true
     }
   },
 

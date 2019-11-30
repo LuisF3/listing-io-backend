@@ -22,7 +22,9 @@ module.exports.routes = {
   'post /auth': 'AuthController.auth',
   'post /register': 'AuthController.register',
   'get /list/getAll': 'ListController.getAll',
-  'post /list/create': 'ListController.create'
+  'post /list/create': 'ListController.create',
+  'get /list/:listId/getAllListItems': 'ListController.getListItems',
+  'post /list/:listId/createListItem': 'ListController.createListItem'
 
 
   /***************************************************************************
