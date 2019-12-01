@@ -1,6 +1,7 @@
 module.exports = {
   create: async function (req, res) {
     if (!req.headers.authorization) return res.forbidden();
+    console.log(req.body);
     if (!req.body.title || !req.body.color) return res.badRequest({message: 'Title and color are required'});
 
     const token = req.headers.authorization.substr(6);
@@ -16,6 +17,20 @@ module.exports = {
     }).fetch();
 
     return res.send(list);
+  },
+  delete: async function (req, res) {
+    if (!req.headers.authorization) return res.forbidden();
+
+    const token = req.headers.authorization.substr(6);
+    const user = await User.findOne({token: token}).populate('lists');
+
+    if(!user) return res.forbidden();
+
+    const listId = req.param('listId');
+    console.log('deleting ' + listId);
+    await List.destroyOne({id: listId});
+
+    return res.ok();
   },
   getAll: async function (req, res) {
     if (!req.headers.authorization) return res.forbidden();
