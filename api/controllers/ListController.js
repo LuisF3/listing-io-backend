@@ -5,7 +5,7 @@ module.exports = {
     if (!req.body.title || !req.body.color) return res.badRequest({message: 'Title and color are required'});
 
     const token = req.headers.authorization.substr(6);
-    const user = await User.findOne({token: token}).populate('lists');
+    const user = await User.findOne({token: token});
 
     if(!user) return res.forbidden();
 
@@ -22,15 +22,28 @@ module.exports = {
     if (!req.headers.authorization) return res.forbidden();
 
     const token = req.headers.authorization.substr(6);
-    const user = await User.findOne({token: token}).populate('lists');
+    const user = await User.findOne({token: token});
 
     if(!user) return res.forbidden();
 
     const listId = req.param('listId');
-    console.log('deleting ' + listId);
     await List.destroyOne({id: listId});
 
     return res.ok();
+  },
+  retrieve: async function (req, res) {
+    if (!req.headers.authorization) return res.forbidden();
+
+    const token = req.headers.authorization.substr(6);
+    const user = await User.findOne({token: token});
+
+    if(!user) return res.forbidden();
+
+    const listId = req.param('listId');
+    const list = await List.findOne({id: listId}).populate('listItems');
+
+    return res.send(list);
+
   },
   getAll: async function (req, res) {
     if (!req.headers.authorization) return res.forbidden();
@@ -62,7 +75,7 @@ module.exports = {
   },
   createListItem: async function (req, res) {
     if (!req.headers.authorization) return res.forbidden();
-    if (!req.body.description || !req.body.isDone) return res.badRequest({message: 'Description and isDone are required'});
+    if (!req.body.description || !req.body.isDone || !req.body.type) return res.badRequest({message: 'Required field value is missing'});
 
     const token = req.headers.authorization.substr(6);
     const user = await User.findOne({token: token}).populate('lists');
@@ -77,11 +90,25 @@ module.exports = {
     const listItem = await ListItem.create({
       description: req.body.description,
       isDone: req.body.isDone,
+      type: req.body.type,
       list: list.id
     }).fetch();
 
     await List.addToCollection(list.id, 'listItems', listItem.id);
 
     return res.send(listItem);
+  },
+  deleteListItem: async function (req, res) {
+    if (!req.headers.authorization) return res.forbidden();
+
+    const token = req.headers.authorization.substr(6);
+    const user = await User.findOne({token: token});
+
+    if(!user) return res.forbidden();
+
+    const listItemId = req.param('listItemId');
+    await ListItem.destroyOne({id: listItemId});
+
+    return res.ok();
   }
 };

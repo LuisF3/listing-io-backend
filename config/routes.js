@@ -23,7 +23,9 @@ module.exports.routes = {
   'post /register': 'AuthController.register',
   'get /list/getAll': 'ListController.getAll',
   'post /list': 'ListController.create',
+  'get /list/:listId': 'ListController.retrieve',
   'delete /list/:listId': 'ListController.delete',
+  'delete /listItem/:listItemId': 'ListController.deleteListItem',
   'get /list/:listId/getAllListItems': 'ListController.getListItems',
   'post /list/:listId/createListItem': 'ListController.createListItem',
 

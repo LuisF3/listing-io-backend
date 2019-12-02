@@ -17,6 +17,11 @@ module.exports = {
       required: true
     },
 
+    type: {
+      type: 'string',
+      required: true
+    },
+
     list: {
       model: 'List',
       required: true
