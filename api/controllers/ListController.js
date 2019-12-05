@@ -1,11 +1,10 @@
 module.exports = {
   create: async function (req, res) {
     if (!req.headers.authorization) return res.forbidden();
-    console.log(req.body);
     if (!req.body.title || !req.body.color) return res.badRequest({message: 'Title and color are required'});
 
     const token = req.headers.authorization.substr(6);
-    const user = await User.findOne({token: token});
+    const user = await User.findOne({id: token});
 
     if(!user) return res.forbidden();
 
@@ -22,7 +21,7 @@ module.exports = {
     if (!req.headers.authorization) return res.forbidden();
 
     const token = req.headers.authorization.substr(6);
-    const user = await User.findOne({token: token});
+    const user = await User.findOne({id: token});
 
     if(!user) return res.forbidden();
 
@@ -35,7 +34,7 @@ module.exports = {
     if (!req.headers.authorization) return res.forbidden();
 
     const token = req.headers.authorization.substr(6);
-    const user = await User.findOne({token: token});
+    const user = await User.findOne({id: token});
 
     if(!user) return res.forbidden();
 
@@ -43,13 +42,30 @@ module.exports = {
     const list = await List.findOne({id: listId}).populate('listItems');
 
     return res.send(list);
-
   },
-  getAll: async function (req, res) {
+  update: async function (req, res) {
     if (!req.headers.authorization) return res.forbidden();
 
     const token = req.headers.authorization.substr(6);
-    const user = await User.findOne({token: token}).populate('lists');
+    const user = await User.findOne({id: token});
+
+    if (!user) return res.forbidden();
+
+    console.log(req.body);
+
+    const listId = req.param('listId');
+    const updatedRecord = await List.updateOne({id: listId}).set(req.body);
+
+    if (updatedRecord) return res.send(updatedRecord);
+    return res.badRequest();
+  },
+  getAll: async function (req, res) {
+    console.log(req.headers);
+    if (!req.headers.authorization) return res.forbidden();
+
+    const token = req.headers.authorization.substr(6);
+
+    const user = await User.findOne({id: token}).populate('lists');
 
     if (!user) return res.forbidden();
 
@@ -62,7 +78,7 @@ module.exports = {
     if (!req.headers.authorization) return res.forbidden();
 
     const token = req.headers.authorization.substr(6);
-    const user = await User.findOne({token: token}).populate('lists');
+    const user = await User.findOne({id: token}).populate('lists');
 
     if (!user) return res.forbidden();
 
@@ -75,10 +91,10 @@ module.exports = {
   },
   createListItem: async function (req, res) {
     if (!req.headers.authorization) return res.forbidden();
-    if (!req.body.description || !req.body.isDone || !req.body.type) return res.badRequest({message: 'Required field value is missing'});
+    if (!req.body.description || req.body.isDone == null || !req.body.type ) return res.badRequest({message: 'Required field value is missing'});
 
     const token = req.headers.authorization.substr(6);
-    const user = await User.findOne({token: token}).populate('lists');
+    const user = await User.findOne({id: token}).populate('lists');
 
     if (!user) return res.forbidden();
 
@@ -91,6 +107,9 @@ module.exports = {
       description: req.body.description,
       isDone: req.body.isDone,
       type: req.body.type,
+      maxQtd: req.body.maxQtd,
+      currentQtd: req.body.currentQtd,
+      date: req.body.date,
       list: list.id
     }).fetch();
 
@@ -102,7 +121,7 @@ module.exports = {
     if (!req.headers.authorization) return res.forbidden();
 
     const token = req.headers.authorization.substr(6);
-    const user = await User.findOne({token: token});
+    const user = await User.findOne({id: token});
 
     if(!user) return res.forbidden();
 
@@ -110,5 +129,19 @@ module.exports = {
     await ListItem.destroyOne({id: listItemId});
 
     return res.ok();
+  },
+  updateListItem: async function (req, res) {
+    if (!req.headers.authorization) return res.forbidden();
+
+    const token = req.headers.authorization.substr(6);
+    const user = await User.findOne({id: token});
+
+    if(!user) return res.forbidden();
+
+    const listItemId = req.param('listItemId');
+    const updatedRecord = await ListItem.updateOne({id: listItemId}).set(req.body);
+
+    if (updatedRecord) return res.send(updatedRecord);
+    return res.badRequest();
   }
 };

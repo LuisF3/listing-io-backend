@@ -22,6 +22,21 @@ module.exports = {
       required: true
     },
 
+    maxQtd: {
+      type: 'number',
+      defaultsTo: 0
+    },
+
+    currentQtd: {
+      type: 'number',
+      defaultsTo: 0
+    },
+
+    date: {
+      type: 'string',
+      defaultsTo: 'yyyy/MM/dd'
+    },
+
     list: {
       model: 'List',
       required: true

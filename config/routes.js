@@ -24,10 +24,12 @@ module.exports.routes = {
   'get /list/getAll': 'ListController.getAll',
   'post /list': 'ListController.create',
   'get /list/:listId': 'ListController.retrieve',
+  'patch /list/:listId': 'ListController.update',
   'delete /list/:listId': 'ListController.delete',
   'delete /listItem/:listItemId': 'ListController.deleteListItem',
   'get /list/:listId/getAllListItems': 'ListController.getListItems',
-  'post /list/:listId/createListItem': 'ListController.createListItem',
+  'post /list/createListItem/:listId': 'ListController.createListItem',
+  'patch /list/updateListItem/:listItemId': 'ListController.updateListItem'
 
 
   /***************************************************************************
